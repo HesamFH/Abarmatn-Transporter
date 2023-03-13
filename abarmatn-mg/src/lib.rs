@@ -31,6 +31,6 @@ mod tests {
 
         let parsed = Parser::new(text).parse(HashMap::from([("name", "John"), ("last_name", "Doe")]));
 
-        assert_eq!(parsed, "hello hesam fatehi")
+        assert_eq!(parsed, "hello John Doe")
     }
 }
