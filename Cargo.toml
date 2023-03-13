@@ -1,0 +1,5 @@
+[workspace]
+members = [
+  "abarmatn-hammal",
+  "abarmatn-mg"
+]
