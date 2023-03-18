@@ -32,16 +32,20 @@ impl Parser {
     }
 }
 
+fn next_char(src: &str, i: usize) -> char {
+    src.as_bytes()[i + 1] as char
+}
+
 pub fn get_blocks(src: &str) -> Vec<&str> {
     let mut blocks: Vec<&str> = vec![];
 
     for (i, c) in src.chars().enumerate() {
         // if two continuos characters are {
-        if c == '{' && src.as_bytes()[i + 1] as char == '{' {
+        if c == '{' && next_char(src, i) == '{' {
             // iterates over the rest of the string until it reaches the first "}}"
             for (ii, cc) in src[i + 2..].chars().enumerate() {
                 // if two continuos characters are }
-                if cc == '}' && src[i + 2..].as_bytes()[ii + 1] as char == '}' {
+                if cc == '}' && next_char(&src[i + 2..], ii) == '}' {
                     // ii+i+2 because ii shows the index in the sliced string (str[i+2..])
                     // and we want ii to show the index in the original string (str)
                     // and an additional +2 because we also want the "}}"
