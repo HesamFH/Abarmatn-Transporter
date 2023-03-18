@@ -13,22 +13,13 @@ impl WebsiteHandler {
         Self { public_path }
     }
 
-    pub fn read_file(&mut self, file_path: &str, values: HashMap<&str, &str>) -> Option<String> {
-        // Delete the slash at the start of path because WINDOWS
-        let edited_file_path = file_path.replace("/", "");
+    pub fn read_file(&self, file_path: &str, values: HashMap<&str, &str>) -> Option<String> {
         // Create the full path of wanted file
-        let file = format!("{}\\{}", self.public_path, edited_file_path);
+        let file = format!("{}/{}", self.public_path, file_path);
 
         // checking the file path for possible directory traversal attack
         match fs::canonicalize(file) {
             Ok(path) => {
-                // Had to change public_path to canonicalized public path because of some error
-                self.public_path = fs::canonicalize(&self.public_path)
-                    .unwrap()
-                    .into_os_string()
-                    .into_string()
-                    .unwrap(); // What a mess LOL
-
                 // if the path was legit, just retuen the file contents :)
                 // else return Option::None
                 if path.starts_with(&self.public_path) {
